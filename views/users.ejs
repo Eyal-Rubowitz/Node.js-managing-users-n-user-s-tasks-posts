@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+        <button href= <%="/add-user" % value="Add User">></button>
+        
+    <ul>
+        <%  userList.forEach( function(user)  {       %>
+            <li>Name: <%= user.name %></li>
+            <li>Email: <%= user.email %></li>
+            <li>City: <%= user.city %></li>
+            <li>Phones: <%= user.phone %></li>
+            <ul>
+                <h3>Posts:</h3>
+                <%  postList.forEach( function(post)  {       %>
+                <% if(user.id == post.userId) { %>
+                    <li> <%= post.title %></li>
+                <% }});    %>
+            </ul>
+            <ul>
+                <h3>Tasks:</h3>
+                <%  taskList.forEach( function(task)  {       %>
+                <% if(user.id == task.userId) { %>
+                <li> <%= task.title %></li>
+            <% }});    %>
+        </ul>
+        <br>
+        <button>Add Task</button>
+        <button>Add Post</button>
+        <br>
+        <br>
+        <%  });    %>
+    </ul>
+</body>
+
+</html>
