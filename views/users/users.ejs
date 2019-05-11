@@ -2,7 +2,7 @@
 <html>
 
 <body>
-    <button href="/add-user">Add User</button>
+    <a href="/users/new">Add User</a>
         
     <ul>
         <%  userList.forEach( function(user)  {       %> 
@@ -19,7 +19,7 @@
         <ul>
             <h3>Tasks:</h3>
             <%  user.tasks.forEach( function(task)  {       %>
-            <li> <%= task.title %></li>
+            <li> <a href='/tasks/<%= task.id %>/edit'><%= task.title %></a></li>
             <% });    %>
         </ul>
         <br>

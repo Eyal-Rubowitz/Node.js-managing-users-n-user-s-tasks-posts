@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <a href="/users"> 🢘 Back to Users</a>
+
+    <form action="/tasks/<%= task._id %>/update" method="POST">
+        <table style='width:100%;'>
+            <tr>
+                <td style='width:100px;'>
+                    <h1>
+                        Title: 
+                    </h1>
+                </td>
+                <td>
+                    <input type="text" 
+                           name="title" 
+                           value="<%= task.title %>" 
+                           style='width:100%;'/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h4>
+                        Status:
+                    </h4>
+                </td>
+                <td>
+                    <input type="hidden" 
+                           name="completed" 
+                           value="false"/>
+                    <input type="checkbox" 
+                           name="completed" 
+                           value="true"
+                           <%= task.completed ? 'checked' : '' %>/>
+                </td>
+            </tr>
+        </table>
+        <input type="submit" value="Save"/>
+    </form>
+    <br/>
+    <form action="/tasks/<%= task._id %>/delete" method="POST">
+        <input type="submit" value="Delete">
+    </form>
+</body>
+</html>

@@ -2,11 +2,27 @@ var express = require('express');
 var router = express.Router();
 var userModel = require('../models/userModel');
 
+// list
 router.get('/', function (req, res, next) {
   userModel.find().populate('posts').populate('tasks').exec((err, users) => {
-    res.render('users', { userList: users });
+    res.render('users/users', { userList: users });
   });
 });
+
+// new
+router.get('/new', function (req, res, next) {
+  res.render('users/add-user')
+});
+
+// create
+router.route('/').
+  post(function (req, resp) {
+    const newUser = new userModel(req.body);
+    newUser.save(function (err) {
+      if (err) resp.send(err);
+      resp.redirect('/users');
+    });
+  });
 
 // router.route('/').
 //     get(function(req,resp)
@@ -34,29 +50,6 @@ router.get('/', function (req, res, next) {
 //             return resp.json(per);
 //         });
 //     });
-
-
-
-// router.route('/').
-//     post(function(req,resp)
-//     {
-//         const newPerson = new peronsDB({
-//             FirstName : req.body.fname,
-//             LastName : req.body.lname,
-//             Age : req.body.age
-//         });
-
-//         newPerson.save(function(err)
-//         {
-//             if(err)
-//             {
-//                 resp.send(err);                
-//             }
-//             resp.send('Person Created !')
-//         });
-
-//     });
-
 
 // router.route('/:id').
 //     put(function(req,resp)

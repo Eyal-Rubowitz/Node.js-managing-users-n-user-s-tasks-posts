@@ -39,4 +39,11 @@ userSchema.virtual('tasks', {
   justOne: false
 });
 
+userSchema.virtual('phones', {
+  ref: 'phone',
+  localField: 'id',
+  foreignField: 'userId',
+  justOne: false
+});
+
 module.exports = mongoose.model('user',userSchema);
