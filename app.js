@@ -11,7 +11,6 @@ var addUserRouter = require('./routes/add-user');
 var app = express();
 
 var mongoose = require("mongoose");
-mongoose.Promise = global.Promise;
 mongoose.connect("mongodb://localhost:27017/usr-management-db", {useNewUrlParser: true});
 
 // view engine setup

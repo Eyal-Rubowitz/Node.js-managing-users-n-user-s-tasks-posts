@@ -1,5 +1,3 @@
-// let axios = require('axios');
-
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
@@ -34,15 +32,11 @@ userSchema.virtual('posts', {
   justOne: false
 });
 
+userSchema.virtual('tasks', {
+  ref: 'task',
+  localField: 'id',
+  foreignField: 'userId',
+  justOne: false
+});
+
 module.exports = mongoose.model('user',userSchema);
-
-
-// module.exports.getUserList = function () {
-//     let p = axios.get('https://jsonplaceholder.typicode.com/users');
-//     return p;
-// }
-
-// module.exports.getUserById = function (id) {
-//     let p = axios.get(`https://jsonplaceholder.typicode.com/users/${id}`);
-//     return p;
-// }

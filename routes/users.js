@@ -1,28 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var userModel = require('../models/userModel');
-var postModel = require('../models/postModel');
-var taskModel = require('../models/taskModel');
 
-// const mongoose = require('mongoose');
-// mongoose.Promise = global.Promise;
-// mongoose.createConnection('mongodb://localhost/userDB')
-
-router.get('/', function(req, res, next) {
-  userModel.getUserList().then( serviceUserData => {
-    postModel.getPostList().then( servicePostData => {
-      taskModel.getTaskList().then( serviceTaskData => {
-
-        
-        res.render('users', {userList: serviceUserData.data, 
-                             postList: servicePostData.data,
-                             taskList: serviceTaskData.data})
-      })})})
-});
-
-router.get('/foos', function(req, res, next) {
-  userModel.findOne().populate('posts').exec((err, user) => {
-    res.send(JSON.stringify(user.posts))
+router.get('/', function (req, res, next) {
+  userModel.find().populate('posts').populate('tasks').exec((err, users) => {
+    res.render('users', { userList: users });
   });
 });
 

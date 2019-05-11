@@ -3,31 +3,29 @@ var router = express.Router();
 let axios = require('axios');
 let userModel = require('../models/userModel');
 let postModel = require('../models/postModel');
+let taskModel = require('../models/taskModel');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/create-db', async function (req, res, nex) {
-  userList = await axios.get('https://jsonplaceholder.typicode.com/users');
-
-  userList.data.forEach(user => {
-    let u = new userModel(user);
-    u.save(function (err, doc) {
-      if (err) console.log(err);
-    });
-  });
-
-  postList = await axios.get('https://jsonplaceholder.typicode.com/posts')
-  postList.data.forEach(post => {
-    let p = new postModel(post);
-    p.save(function (err, doc) {
-      if(err) console.log(err);
-    });
-
+router.get('/create-db', function (req, res, nex) {
+  let tables = [
+    ['users', userModel],
+    ['posts', postModel],
+    ['todos', taskModel]
+  ].map( async ([dbTable, tableModel]) => {
+    instanceList = await axios.get(`https://jsonplaceholder.typicode.com/${dbTable}`)
+    instanceList.data.forEach(instance => {
+      let t = new tableModel(instance);
+      t.save(function (err, doc) {
+        if (err) console.log(err);
+      });
+    })
   })
-  res.send("Setup DB Done!");
+  Promise.all(tables).then(() => res.send("Setup DB Done!") );
+  
 })
 
 module.exports = router;
