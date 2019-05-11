@@ -24,10 +24,15 @@ var userSchema = new Schema({
       name: String,
       catchPhrase: String,
       bs: String
-    }
+    },
 });
 
-
+userSchema.virtual('posts', {
+  ref: 'post',
+  localField: 'id',
+  foreignField: 'userId',
+  justOne: false
+});
 
 module.exports = mongoose.model('user',userSchema);
 

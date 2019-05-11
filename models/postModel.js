@@ -1,4 +1,4 @@
-let axios = require('axios');
+// let axios = require('axios');
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
@@ -6,11 +6,7 @@ var postSchema = new Schema({
     userId: Number,
     id: Number,
     title: String,
-    body: String,
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'user'
-    }
+    body: String
 });
 
 

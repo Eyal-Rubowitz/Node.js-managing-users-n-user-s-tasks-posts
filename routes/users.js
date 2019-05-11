@@ -20,6 +20,12 @@ router.get('/', function(req, res, next) {
       })})})
 });
 
+router.get('/foos', function(req, res, next) {
+  userModel.findOne().populate('posts').exec((err, user) => {
+    res.send(JSON.stringify(user.posts))
+  });
+});
+
 // router.route('/').
 //     get(function(req,resp)
 //     {
