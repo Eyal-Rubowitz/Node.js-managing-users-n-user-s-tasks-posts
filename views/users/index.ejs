@@ -3,13 +3,17 @@
 
 <body>
     <a href="/users/new">Add User</a>
-        
+
     <ul>
-        <%  userList.forEach( function(user)  {       %> 
-        <li>Name: <%= user.name %></li>
+        <%  userList.forEach( function(user)  {       %>
+        <li>Name: <a href="/users/<%= user.id %>"> <%= user.name %></a></li>
         <li>Email: <%= user.email %></li>
-        <li>City: <%= user.city %></li>
-        <li>Phones: <%= user.phone %></li>
+        <li>City: <%= user.address.city %></li>
+        <ul style="text-transform: capitalize;">
+            <%  user.phones.forEach( function(phone)  {       %>
+                <li><%= phone.phoneType %>: <%= phone.phoneNumber %></li>
+            <% });    %>
+        </ul>
         <ul>
             <h3>Posts:</h3>
             <%  user.posts.forEach( function(post)  {       %>
@@ -23,12 +27,12 @@
             <% });    %>
         </ul>
         <br>
-        <button>Add Task</button>
-        <button>Add Post</button>
+        <a>Add Task</a>
+        <a>Add Post</a>
         <br>
         <br>
         <%  });    %>
-        </ul>
+    </ul>
 </body>
 
 </html>

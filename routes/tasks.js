@@ -27,14 +27,6 @@ router.route('/:id/delete').
             if (err) return res.send(err);
             return res.send('Deleted !');
         });
-        // taskModel.findOne({id: req.params.id},                     
-        // (err,task) => {            
-        //     if(err) return resp.send(err);
-        //     task.remove(err => {
-        //         if(err) return resp.send(err);
-        //         return resp.send('Deleted !');
-        //     });
-        // });
     });
 
 module.exports = router;

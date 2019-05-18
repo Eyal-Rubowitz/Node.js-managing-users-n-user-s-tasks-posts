@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <%- include _back-to-main.ejs %>
+    <form action="/users/<%= user._id %>/update" method="POST">
+        <table>
+            <%- include _form.ejs %>
+            <br />
+            <tr>
+                <td>New Phone:</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="hidden" name="phone[userId]" value="<%= user.id %>" />
+                    <select name="phone[phoneType]">
+                        <option value=landline>Landline</option>
+                        <option value=mobile>Mobile</option>
+                        <option value=fax>Fax</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="text" placeholder="Enter number" name="phone[phoneNumber]" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <br />
+                    <input type="submit" value="Save">
+                </td>
+            </tr>
+        </table>
+    </form>
+    <br />
+    <form action="/users/<%= user._id %>/delete" method="POST">
+        <input type="submit" value="Delete">
+    </form>
+</body>
+
+</html>
