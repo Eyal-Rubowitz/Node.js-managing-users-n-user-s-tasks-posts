@@ -1,7 +1,16 @@
 let express = require('express');
 let router = express.Router();
+
 let userModel = require('../models/userModel');
 let phoneModel = require('../models/phoneModel');
+let sequenceModel = require('../models/sequenceModel');
+
+let tasksRouter = require('./tasks');
+
+router.use('/:id/tasks', (req, res, next) => {
+  req.userId = req.params.id;
+  next();
+}, tasksRouter);
 
 // list
 router.get('/', function (req, res, next) {
@@ -18,8 +27,9 @@ router.get('/new', function (req, res, next) {
 
 // create
 router.route('/').
-  post(function (req, resp) {
+  post(async function (req, resp) {
     const newUser = new userModel(req.body.user);
+    await sequenceModel.setId(newUser);
     newUser.save(function (err) {
       if (err) resp.send(err);
       resp.redirect('/users');
@@ -45,23 +55,23 @@ router.route('/:id/delete').
 router.route('/:id/update').
   post((req, resp) => {
     let promises = [];
-    
+
     promises.push(
       userModel.findByIdAndUpdate(req.params.id, req.body.user)
     );
-    
+
     let phone = req.body.phone
-    if(phone.phoneNumber != '') {
+    if (phone.phoneNumber != '') {
       const newPhoneNum = new phoneModel(phone);
-      promises.push(newPhoneNum.save()); 
+      promises.push(newPhoneNum.save());
     }
-    
+
     Promise.all(promises)
-      .catch((err)=> {
+      .catch((err) => {
         console.log(err);
         return resp.send(err);
-      }).then(() => { 
-        return resp.send('Updated !') 
+      }).then(() => {
+        return resp.send('Updated !')
       });
   });
 // router.route('/').

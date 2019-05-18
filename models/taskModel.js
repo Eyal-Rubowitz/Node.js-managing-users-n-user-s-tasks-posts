@@ -8,5 +8,4 @@ var taskSchema = new Schema({
     completed: Boolean
 });
 
-
 module.exports = mongoose.model('task',taskSchema);
