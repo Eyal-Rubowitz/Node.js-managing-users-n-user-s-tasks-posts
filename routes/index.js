@@ -6,9 +6,6 @@ let postModel = require('../models/postModel');
 let taskModel = require('../models/taskModel');
 let sequenceModel = require('../models/sequenceModel');
 
-const mongoose = require("mongoose");
-const sequence = require('mongoose-sequence')(mongoose);
-
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
@@ -16,13 +13,15 @@ router.get('/', function (req, res, next) {
 
 router.get('/create-db', function (req, res, nex) {
   let tables = [
+  // [collection, model]
     ['users', userModel],
     ['posts', postModel],
     ['todos', taskModel]
   ].map(async ([dbTable, tableModel]) => {
+    // estimatedDocumentCount() - how mouch documents per collection
     tableModel.estimatedDocumentCount().then(async (count) => {
       if (count === 0) {
-        instanceList = await axios.get(`https://jsonplaceholder.typicode.com/${dbTable}`)
+        let instanceList = await axios.get(`https://jsonplaceholder.typicode.com/${dbTable}`);
         let saves = instanceList.data.map(instance => {
           let t = new tableModel(instance);
           return t.save();
@@ -30,7 +29,7 @@ router.get('/create-db', function (req, res, nex) {
         Promise.all(saves).then(() => {
           tableModel.findOne().sort('-id').exec((err, obj) => {
             let seq = new sequenceModel({
-              value: obj.id + 1, 
+              value: obj.id + 1,
               key: `${tableModel.modelName}_id`
             });
             seq.save();

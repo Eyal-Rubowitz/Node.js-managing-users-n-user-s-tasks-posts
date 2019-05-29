@@ -6,11 +6,17 @@ let phoneModel = require('../models/phoneModel');
 let sequenceModel = require('../models/sequenceModel');
 
 let tasksRouter = require('./tasks');
+let postsRouter = require('./posts');
 
 router.use('/:id/tasks', (req, res, next) => {
   req.userId = req.params.id;
   next();
 }, tasksRouter);
+
+router.use('/:id/posts', (req, res, next) => {
+  req.userId = req.params.id;
+  next();
+}, postsRouter);
 
 // list
 router.get('/', function (req, res, next) {

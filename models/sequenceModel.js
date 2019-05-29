@@ -7,7 +7,6 @@ var sequenceSchema = new Schema({
 });
 
 //sequenceSchema.statics.setId 
-
 module.exports = mongoose.model('sequence',sequenceSchema);
 
 module.exports.setId = async function(instance) {

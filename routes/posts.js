@@ -1,15 +1,15 @@
 let express = require('express');
 let router = express.Router();
-let taskModel = require('../models/taskModel');
+let postModel = require('../models/postModel');
 let sequenceModel = require('../models/sequenceModel');
 
 // create
-router.route('/').
-    post(async function (req, resp) {
-        const newTask = new taskModel(req.body);
-        newTask.userId = req.userId;
-        await sequenceModel.setId(newTask);
-        newTask.save(function (err) {
+router.route('/')
+    .post(async function (req, resp) {
+        const newPost = new postModel(req.body);
+        newPost.userId = req.userId;
+        await sequenceModel.setId(newPost);
+        newPost.save(function (err) {
             if (err) resp.send(err);
             resp.redirect('/users');
         });
@@ -17,20 +17,20 @@ router.route('/').
 
 router.route('/new').
     get((req, res) => {
-        res.render('tasks/new', { user_id: req.userId })
+        res.render('posts/new', { user_id: req.userId })
     });
 
 router.route('/:id/edit')
     .get((req, res) => {
-        taskModel.findOne({ id: req.params.id }, (err, task) => {
+        postModel.findOne({ id: req.params.id }, (err, post) => {
             if (err) return res.send(err);
-            return res.render('tasks/edit', { task: task });
+            return res.render('posts/edit', { post: post });
         });
     });
 
-router.route('/:id/update').
-    post((req, resp) => {
-        taskModel.findByIdAndUpdate(req.params.id,
+router.route('/:id/update')
+    .post((req, resp) => {
+        postModel.findByIdAndUpdate(req.params.id,
             req.body,
             (err) => {
                 if (err) return resp.send(err);
@@ -40,7 +40,7 @@ router.route('/:id/update').
 
 router.route('/:id/delete').
     post((req, res) => {
-        taskModel.findByIdAndRemove(req.params.id, (err) => {
+        postModel.findByIdAndRemove(req.params.id, (err) => {
             if (err) return res.send(err);
             return res.send('Deleted !');
         });
