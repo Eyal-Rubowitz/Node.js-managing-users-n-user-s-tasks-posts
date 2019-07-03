@@ -11,7 +11,7 @@
         <li>City: <%= user.address.city %></li>
         <ul style="text-transform: capitalize;">
             <%  user.phones.forEach( function(phone)  {       %>
-                <li><%= phone.phoneType %>: <%= phone.phoneNumber %></li>
+            <li><%= phone.phoneType %>: <%= phone.phoneNumber %></li>
             <% });    %>
         </ul>
         <ul>

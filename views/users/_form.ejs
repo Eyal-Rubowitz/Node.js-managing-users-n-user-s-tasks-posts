@@ -1,11 +1,14 @@
 <tr>
     <td>Name: </td>
-    <td><input type="text" name="user[name]" value="<%= user.name%>"></td>
+    <td>
+        <input type="hidden" name="user[id]" value="<%= user.id %>" />
+        <input type="text" name="user[name]" value="<%= user.name%>" />
+    </td>
 </tr>
 <tr>
     <td>Email: </td>
-    <td><input type="text" name="user[email]" value="<%= user.email%>"></td>
+    <td><input type="text" name="user[email]" value="<%= user.email%>" /></td>
 </tr>
 <td>City: </td>
-<td><input type="text" name="user[address][city]" value="<%= user.address.city%>"></td>
+<td><input type="text" name="user[address][city]" value="<%= user.address.city%>" /></td>
 </tr>

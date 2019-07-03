@@ -12,7 +12,7 @@ var postsRouter = require('./routes/posts');
 var app = express();
 
 var mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/usr-management-db", {useNewUrlParser: true});
+mongoose.connect("mongodb://localhost:27017/usr-management-db", {useNewUrlParser: true, useFindAndModify: false});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

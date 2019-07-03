@@ -37,7 +37,10 @@ router.route('/').
     const newUser = new userModel(req.body.user);
     await sequenceModel.setId(newUser);
     newUser.save(function (err) {
-      if (err) resp.send(err);
+      if (err) {
+        console.log(err);
+        return resp.send(err);
+      }
       resp.redirect('/users');
     });
   });
@@ -58,8 +61,8 @@ router.route('/:id/delete').
   });
 
 //update
-router.route('/:id/update').
-  post((req, resp) => {
+router.route('/:id/update').post(
+  (req, resp) => {
     let promises = [];
 
     promises.push(
@@ -80,65 +83,5 @@ router.route('/:id/update').
         return resp.send('Updated !')
       });
   });
-// router.route('/').
-//     get(function(req,resp)
-//     {
-//         peronsDB.find({}, function(err,pers)
-//         {
-//             console.log(pers);
-//             if(err)
-//             {
-//                 return resp.send(err);
-//             }
-//             return resp.json(pers);
-//         });
-//     });
-
-// router.route('/:id').
-//     get(function(req,resp)
-//     {
-//         peronsDB.findById(req.params.id , function(err,per)
-//         {            
-//             if(err)
-//             {
-//                 return resp.send(err);
-//             }
-//             return resp.json(per);
-//         });
-//     });
-
-// router.route('/:id').
-//     put(function(req,resp)
-//     {
-//         peronsDB.findByIdAndUpdate(req.params.id ,
-//                 {
-//                     FirstName : req.body.fname,
-//                     LastName : req.body.lname
-//                 } ,               
-//         function(err,per)
-//         {            
-//             if(err)
-//             {
-//                 return resp.send(err);
-//             }
-//             return resp.send('Updated !');
-//         });
-//     });
-
-
-// router.route('/:id').
-//     delete(function(req,resp)
-//     {
-//         peronsDB.findByIdAndDelete(req.params.id ,                     
-//         function(err,per)
-//         {            
-//             if(err)
-//             {
-//                 return resp.send(err);
-//             }
-//             return resp.send('Deleted !');
-//         });
-//     });
-
 
 module.exports = router;
