@@ -12,34 +12,34 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/create-db', function (req, res, nex) {
-  let tables = [
-  // [collection, model]
+  let collections = [
+    // [collection, model]
     ['users', userModel],
     ['posts', postModel],
     ['todos', taskModel]
-  ].map(async ([dbTable, tableModel]) => {
+  ].map(async ([dbTable, collectionModel]) => {
     // estimatedDocumentCount() - how mouch documents per collection
-    tableModel.estimatedDocumentCount().then(async (count) => {
+    collectionModel.estimatedDocumentCount().then(async (count) => {
       if (count === 0) {
         let instanceList = await axios.get(`https://jsonplaceholder.typicode.com/${dbTable}`);
         let saves = instanceList.data.map(instance => {
-          let t = new tableModel(instance);
-          return t.save();
+          let c = new collectionModel(instance);
+          return c.save();
         });
         Promise.all(saves).then(() => {
-          tableModel.findOne().sort('-id').exec((err, obj) => {
+          collectionModel.findOne().sort('-id').exec((err, obj) => {
             let seq = new sequenceModel({
               value: obj.id + 1,
-              key: `${tableModel.modelName}_id`
+              key: `${collectionModel.modelName}_id`
             });
             seq.save();
           });
         });
       }
-    })
-  })
-  Promise.all(tables).then(() => res.send("Setup DB Done!"));
+    });
+  });
+  Promise.all(collections).then(() => res.send("Setup DB Done!"));
 
-})
+});
 
 module.exports = router;

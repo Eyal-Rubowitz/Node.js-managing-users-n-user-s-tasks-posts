@@ -9,14 +9,12 @@
             <tr>
                 <td style='width:100px;'>
                     <h1>
-                        Title: 
+                        Title:
                     </h1>
                 </td>
                 <td>
-                    <input type="text" 
-                           name="title" 
-                           value="<%= task.title %>" 
-                           style='width:80%;'/>
+                    <input type="hidden" name="userId" value="<%=task.userId%>" />
+                    <input type="text" name="title" value="<%= task.title %>" style='width:80%;' />
                 </td>
             </tr>
             <tr>
@@ -26,21 +24,18 @@
                     </h4>
                 </td>
                 <td>
-                    <input type="hidden" 
-                           name="completed" 
-                           value="false"/>
-                    <input type="checkbox" 
-                           name="completed" 
-                           value="true"
-                           <%= task.completed ? 'checked' : '' %>/>
+                    <input type="hidden" name="completed" value="false" />
+                    <input type="checkbox" name="completed" value="true" <%= task.completed ? 'checked' : '' %> />
                 </td>
             </tr>
         </table>
-        <input type="submit" value="Save"/>
+        <input type="submit" value="Save" />
     </form>
-    <br/>
+    <br />
     <form action="/tasks/<%= task._id %>/delete" method="POST">
+        <input type="hidden" name="userId" value="<%=task.userId%>" />
         <input type="submit" value="Delete">
     </form>
 </body>
+
 </html>

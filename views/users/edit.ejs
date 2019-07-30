@@ -37,6 +37,7 @@
     </form>
     <br />
     <form action="/users/<%= user._id %>/delete" method="POST">
+        <input type="hidden" name="id" value="<%=user.id%>" />
         <input type="submit" value="Delete">
     </form>
 </body>

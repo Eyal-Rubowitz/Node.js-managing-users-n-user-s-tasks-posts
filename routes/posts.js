@@ -2,6 +2,7 @@ let express = require('express');
 let router = express.Router();
 let postModel = require('../models/postModel');
 let sequenceModel = require('../models/sequenceModel');
+let fs = require('fs');
 
 // create
 router.route('/')
@@ -15,8 +16,8 @@ router.route('/')
         });
     });
 
-router.route('/new').
-    get((req, res) => {
+router.route('/new')
+    .get((req, res) => {
         res.render('posts/new', { user_id: req.userId })
     });
 
@@ -34,14 +35,20 @@ router.route('/:id/update')
             req.body,
             (err) => {
                 if (err) return resp.send(err);
+                fs.appendFile(`./logs/user_${req.body.userId}`, `updated post: ${JSON.stringify(req.body)}  !\n`, (err) => {
+                    if (err) console.log(err);
+                });
                 return resp.send('Updated !');
             });
     });
 
-router.route('/:id/delete').
-    post((req, res) => {
+router.route('/:id/delete')
+    .post((req, res) => {
         postModel.findByIdAndRemove(req.params.id, (err) => {
             if (err) return res.send(err);
+            fs.appendFile(`./logs/user_${req.body.userId}`, `post ${req.params.id} deleted !\n`, (err) => {
+                if (err) console.log(err);
+            });
             return res.send('Deleted !');
         });
     });

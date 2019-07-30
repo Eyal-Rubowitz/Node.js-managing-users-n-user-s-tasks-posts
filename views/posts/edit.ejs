@@ -7,32 +7,30 @@
         <table style="width: 100vw">
             <tr>
                 <td style="width: 100px">
-                    <h1>Title:</h1> 
+                    <h1>Title:</h1>
                 </td>
                 <td>
-                    <input type="text"
-                           name="title"
-                           value="<%= post.title %>"
-                           style='width:80vw;'>
-                </input>
+                    <input type="hidden" name="userId" value="<%=post.userId%>" />
+                    <input type="text" name="title" value="<%= post.title %>" style='width:80vw;'>
+                    </input>
                 </td>
             </tr>
             <tr>
                 <td>
-                   <h1>Text:</h1>  
+                    <h1>Text:</h1>
                 </td>
                 <td>
-                    <textarea name="body" 
-                        style="width:40vw; height: 30vh;"><%= post.body %></textarea>
-                    
+                    <textarea name="body" style="width:40vw; height: 30vh;"><%= post.body %></textarea>
+
                 </td>
             </tr>
         </table>
-        <input type="submit" value="Save"/>
+        <input type="submit" value="Save" />
     </form>
-    <br/>
+    <br />
     <form action="/posts/<%= post._id %>/delete" method="POST">
-        <input type="submit" value="Delete"/>
+        <input type="hidden" name="userId" value="<%=post.userId%>" />
+        <input type="submit" value="Delete" />
     </form>
 </body>
 

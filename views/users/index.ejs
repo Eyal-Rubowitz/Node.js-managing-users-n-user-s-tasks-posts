@@ -3,6 +3,16 @@
 
 <body>
     <a href="/users/new">Add User</a>
+    <% if(filtered) {  %>
+    <a href="/users">Clear search</a>
+    <% } %>
+    <br />
+    <br />
+    <form method="GET">
+        <input type="text" name="name" />
+        <input type="submit" value="Search" />
+    </form>
+    <br />
 
     <ul>
         <%  userList.forEach( function(user)  {       %>

@@ -2,6 +2,7 @@ let express = require('express');
 let router = express.Router();
 let taskModel = require('../models/taskModel');
 let sequenceModel = require('../models/sequenceModel');
+let fs = require('fs');
 
 // create
 router.route('/').
@@ -34,6 +35,9 @@ router.route('/:id/update').
             req.body,
             (err) => {
                 if (err) return resp.send(err);
+                fs.appendFile(`./logs/user_${req.body.userId}`, `updated task: ${JSON.stringify(req.body)}  !\n`, (err) => {
+                    if (err) console.log(err);
+                });
                 return resp.send('Updated !');
             });
     });
@@ -42,6 +46,9 @@ router.route('/:id/delete').
     post((req, res) => {
         taskModel.findByIdAndRemove(req.params.id, (err) => {
             if (err) return res.send(err);
+            fs.appendFile(`./logs/user_${req.body.userId}`, `task ${req.params.id} deleted !\n`, (err) => {
+                if (err) console.log(err);
+            });
             return res.send('Deleted !');
         });
     });

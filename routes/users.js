@@ -1,8 +1,11 @@
 let express = require('express');
 let router = express.Router();
+let fs = require('fs');
 
 let userModel = require('../models/userModel');
 let phoneModel = require('../models/phoneModel');
+let taskModel = require('../models/taskModel');
+let postModel = require('../models/postModel');
 let sequenceModel = require('../models/sequenceModel');
 
 let tasksRouter = require('./tasks');
@@ -22,7 +25,18 @@ router.use('/:id/posts', (req, res, next) => {
 router.get('/', function (req, res, next) {
   // populate('relation-name') - reference to matched collection by virtual relations
   userModel.find().populate('posts').populate('tasks').populate('phones').exec((err, users) => {
-    res.render('users/index', { userList: users });
+    if (err) console.log(err);
+    // query user by name
+    let nameInput = req.query.name;
+    console.log(nameInput);
+    if (nameInput) {
+      nameInput = nameInput.toLowerCase();
+      users = users.filter(user => {
+        let un = user.name.toLowerCase();
+        return un.includes(nameInput);
+      });
+    }
+    res.render('users/index', { userList: users, filtered: !!nameInput });
   });
 });
 
@@ -52,13 +66,18 @@ router.get('/:id', function (req, res, next) {
 });
 
 // delete
-router.route('/:id/delete').
-  post((req, res) => {
-    userModel.findByIdAndRemove(req.params.id, (err, user) => {
-      if (err) return res.send(err);
-      return res.send('Deleted !');
+router.post('/:id/delete', (req, res) => {
+  userModel.findByIdAndRemove(req.params.id, (err) => {
+    if (err) return res.send(err);
+    fs.appendFile(`./logs/user_${req.body.id}`, `R.I.P.`, (err) => {
+      if (err) console.log(err);
     });
+    [taskModel, postModel, phoneModel].forEach((model) => {
+      model.deleteMany({ userId: req.body.id }, (err) => { if (err) console.log(err) });
+    });
+    return res.send('Deleted !');
   });
+});
 
 //update
 router.route('/:id/update').post(

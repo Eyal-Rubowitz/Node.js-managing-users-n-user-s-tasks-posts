@@ -10,4 +10,4 @@ var phoneSchema = new Schema({
     phoneNumber: String
 })
 
-module.exports = mongoose.model('phone',phoneSchema);
+module.exports = mongoose.model('phone', phoneSchema);
